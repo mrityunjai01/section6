@@ -4,7 +4,6 @@ from flask_jwt import JWT
 from security import authenticate, identity
 from models.user import UserModel
 from resources import item, user, store
-import os
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -24,4 +23,5 @@ api.add_resource(user.UserRegister, '/register')
 api.add_resource(store.Store, '/store/<string:name>')
 api.add_resource(store.StoreList, '/stores')
 if __name__ == '__main__':
-	app.run (port = os.getenv("PORT") or 5050, debug = True)
+	from os import environ
+	app.run (host= '0.0.0.0', port = environ.get("PORT", 5050), debug = True)
