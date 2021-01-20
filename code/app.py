@@ -5,6 +5,7 @@ from security import authenticate, identity
 from models.user import UserModel
 from resources import item, user, store
 from db import db
+import os
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -28,4 +29,4 @@ api.add_resource(store.Store, '/store/<string:name>')
 api.add_resource(store.StoreList, '/stores')
 if __name__ == '__main__':
 	db.init_app(app)
-	app.run (port = 5050, debug = True)
+	app.run (port = os.getenv("PORT") or 5050, debug = True)
