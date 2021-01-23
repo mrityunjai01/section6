@@ -7,12 +7,26 @@ class UserRegister(Resource):
 	parser.add_argument('password', type = str, required = True, help = 'We need your password')
 	def post(self):
 		data = UserRegister.parser.parse_args()
-		
+
 		if (UserModel.find_by_username(data['username'])):
 			return {"message": "a user with the same username is already there"}, 400
-		
+
 		user = UserModel(**data)
 		user.save_to_db()
 		return {"message": "new user posted!"}, 201
 
 
+class User(Resource):
+	@classmethod
+	def get(cls, user_id):
+		user = UserModel.find_by_id(user_id)
+		if not user:
+			return {"message": "user not found"}, 404
+		return user.json()
+	@classmethod
+	def delete(cls, user_id):
+		user = UserModel.find_by_id(user_id)
+		if not user:
+			return {"message": "user not found"}, 404
+		user.delete_from_db()
+		return {"message": "user deleted successfully"}, 200

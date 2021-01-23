@@ -7,7 +7,7 @@ class Store(Resource):
 		if store:
 			return store.json()
 		return {"message": "store not found"}, 404
-		
+
 	def post(self, name):
 		if (StoreModel.find_by_name(name)):
 			return {"message": "a store with the same name exists"}
@@ -28,4 +28,4 @@ class Store(Resource):
 
 class StoreList(Resource):
 	def get(self):
-		return {'stores': [store.json() for store in StoreModel.query.all()]}
+		return {'stores': [store.json() for store in StoreModel.find_all()]}
